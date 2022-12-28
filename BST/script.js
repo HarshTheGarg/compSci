@@ -44,8 +44,22 @@ function remDup(arr){
 
 function Tree(arr){
     arr = remDup(bubSort(ar));
+    root = buildTree(arr, 0, arr.length-1);
     return {
-        root: buildTree(arr, 0, arr.length-1)
+        root,
+        insert(ele, root){
+            if ( root == null ){
+                root = Node(ele);
+                return root; 
+            }
+            if ( ele > root.data ){
+                root.right = this.insert(ele, root.right);
+            }
+            if ( ele < root.data ){
+                root.left = this.insert(ele, root.left);
+            }
+            return root;
+        }
     }
     function buildTree(arr, start, end){
         if ( start > end ){
@@ -74,5 +88,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
   
   
-ar = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-prettyPrint(Tree(ar).root);
+ar = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+let tree = Tree(ar);
+tree.insert(10, tree.root);
+prettyPrint(tree.root);
